@@ -37,6 +37,7 @@
 ;; Color Themes
 (require 'color-theme)
 (color-theme-initialize)
+(setq custom-theme-directory (concat EMACS-EXTERNAL-DIR "themes"))
 ;;(color-theme-dark-blue2)
 (load-theme 'subatomic t)
 
