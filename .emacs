@@ -1,7 +1,7 @@
 ;; Root path for the main lisp files.
 (setq EMACS-ROOT-DIR "~/Dropbox/git/Emacs/")
 ;; Location of external code
-(setq EMACS-EXTERNAL-DIR "~/Dropbox/Emacs/External/")
+(setq EMACS-EXTERNAL-DIR "~/Dropbox/git/Emacs/External/")
 
 (setq ESS-ROOT-DIR "~/Dropbox/Emacs/ESS/")
 (setq JULIA-EXECUTABLE "/usr/local/bin/julia")
