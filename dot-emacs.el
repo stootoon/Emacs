@@ -249,7 +249,7 @@
 
 (require 'tabbar)
 
-(load (concat EMACS-ROOT-DIR "my_emacs_abbrev.el"))
+(load (concat EMACS-ROOT-DIR "my-emacs-abbrev.el"))
 
 ; ESS mode
 (require 'ess-site)
