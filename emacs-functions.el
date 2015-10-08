@@ -43,7 +43,7 @@
   "Writes a random quote from the Tao Te Ching to a buffer."
   (interactive)
   (setq outputBuffer (get-buffer-create "*Tao Te Ching*"))
-  (setq inputBuffer (find-file-noselect "~/Dropbox/ttc.txt"))
+  (setq inputBuffer (find-file-noselect (concat EMACS-ROOT-DIR "ttc.txt")))
   (set-buffer inputBuffer)
   (goto-char (point-min))
   (setq nq (st-count-string "\n\n")) ;; Count the number of quotes

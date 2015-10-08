@@ -1,16 +1,17 @@
 ;; .emacs
 (setq inhibit-splash-screen t)
 (setq load-path (cons EMACS-ROOT-DIR load-path))
+(setq load-path (cons EMACS-EXTERNAL-DIR load-path))
 (add-to-list 'load-path ESS-LISP-PATH)
 (load "ess-site")
 (setq inferior-julia-program-name JULIA-EXECUTABLE)
 
 (hl-line-mode 1)
 (set-face-background 'hl-line "steelblue4")
-;;(global-hl-line-mode 1)
+
 (add-hook 'matlab-mode-hook (lambda () (hl-line-mode 1)))
 
-
+;;ido stuff
 (require 'ido)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -20,7 +21,7 @@
 (global-font-lock-mode t)
 
 ;; Matlab Mode
-(add-to-list 'load-path (concat EMACS-EXTERNAL-PATH "matlab-emacs"))
+(add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
 (require 'matlab-load)
 (load-file (concat EMACS-ROOT-DIR "matlab-cell.el"))
 
@@ -28,7 +29,7 @@
 (require 'st-multi-mode)
 
 ;; PHP Mode
-(autoload 'php-mode (concat EMACS-EXTERNAL-PATH "php-mode.el") "Enter PHP mode." t) 
+(autoload 'php-mode (concat EMACS-EXTERNAL-DIR "php-mode.el") "Enter PHP mode." t) 
 (setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist)) 
 
 (require 'whitespace)
@@ -36,8 +37,8 @@
 ;; Color Themes
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-dark-blue2)
-
+;;(color-theme-dark-blue2)
+(load-theme 'subatomic t)
 
 ;; Desktop stuff
 (desktop-save-mode 0)
@@ -73,7 +74,7 @@
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
 ;; Personal stuff
-(load (concat EMACS-ROOT-DIR "emacsFunctions.el"))
+(load (concat EMACS-ROOT-DIR "emacs-functions.el"))
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
 (global-set-key (kbd "C-; C-j") 'fill-paragraph)
 (global-set-key (kbd "C-; C-c") 'st-char-count)
@@ -246,8 +247,6 @@
    (local-set-key (kbd "C-RET") 'html-list-item)
  )
 )
-
-(require 'tabbar)
 
 (load (concat EMACS-ROOT-DIR "my-emacs-abbrev.el"))
 
