@@ -1,10 +1,9 @@
 ;; .emacs
 (setq inhibit-splash-screen t)
-(setq load-path (cons "~/Dropbox/Emacs" load-path))
-(add-to-list 'load-path "~/Dropbox/Emacs/ESS/lisp/")
+(setq load-path (cons EMACS-ROOT-DIR load-path))
+(add-to-list 'load-path ESS-LISP-PATH)
 (load "ess-site")
-;(setq inferior-julia-program-name "/Applications/Julia-0.2.1.app/Contents/Resources/julia/bin/julia-basic")
-(setq inferior-julia-program-name "/usr/local/bin/julia")
+(setq inferior-julia-program-name JULIA-EXECUTABLE)
 
 (hl-line-mode 1)
 (set-face-background 'hl-line "steelblue4")
@@ -21,27 +20,15 @@
 (global-font-lock-mode t)
 
 ;; Matlab Mode
-(add-to-list 'load-path "~/Dropbox/Emacs/matlab-emacs")
+(add-to-list 'load-path (concat EMACS-EXTERNAL-PATH "matlab-emacs"))
 (require 'matlab-load)
-;; ~/Dropbox/Emacs/matlab-emacs/
-;;(autoload 'matlab-mode "~/matlab.el" "Enter Matlab mode." t) 
-;;(setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist)) 
-;;(autoload 'matlab-shell "~/matlab.el" "Interactive Matlab mode." t)
-(load-file "~/Dropbox/matlab-cell.el")
+(load-file (concat EMACS-ROOT-DIR "matlab-cell.el"))
 
-(load-file "~/Dropbox/Emacs/st-multi-mode.el")
+(load-file (concat EMACS-ROOT-DIR "st-multi-mode.el"))
 (require 'st-multi-mode)
 
-;; NEURON mode
-;(autoload 'nrnhoc-mode "~/nrnhoc.el" "Enter NRNHOC mode." t)
-;(setq auto-mode-alist (cons '("\\.hoc\\'" . nrnhoc-mode) auto-mode-alist))
-
-;; NMODL mode
-;(autoload 'nmodl-mode "~/nmodl.el" "Enter NMODL mode." t)
-;(setq auto-mode-alist (cons '("\\.mod\\'" . nmodl-mode) auto-mode-alist))
-
 ;; PHP Mode
-(autoload 'php-mode "~/Dropbox/Emacs/php-mode.el" "Enter PHP mode." t) 
+(autoload 'php-mode (concat EMACS-EXTERNAL-PATH "php-mode.el") "Enter PHP mode." t) 
 (setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist)) 
 
 (require 'whitespace)
@@ -50,8 +37,6 @@
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-dark-blue2)
-;;(require 'zenburn)
-;;(zenburn)
 
 
 ;; Desktop stuff
@@ -60,13 +45,6 @@
 (tool-bar-mode 0)
 (column-number-mode 1)
 (setq truncate-lines 0)
-
-;; Lush Stuff
-;; (load "/usr/local/share/lush/etc/lush.el")
-
-;; XPP Stuff
-(autoload 'xpp-mode "xpp" "Enter XPP mode." t)
-(setq auto-mode-alist (cons '("\\.ode\\'" . xpp-mode) auto-mode-alist))
 
 ;; Org Stuff
 (setq org-todo-keywords
@@ -95,7 +73,7 @@
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
 ;; Personal stuff
-(load "~/Dropbox/emacsFunctions.el")
+(load (concat EMACS-ROOT-DIR "emacsFunctions.el"))
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
 (global-set-key (kbd "C-; C-j") 'fill-paragraph)
 (global-set-key (kbd "C-; C-c") 'st-char-count)
@@ -141,7 +119,6 @@
 (global-set-key (kbd "C-; C-g c") '(lambda () (interactive) (insert "\\xi"))) 
 (global-set-key (kbd "C-; C-g w") '(lambda () (interactive) (insert "\\psi"))) 
 (global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omega"))) 
-;;(global-set-key (kbd "C-; C-i") 'st-insert-image-at-point)
 
 (global-set-key (kbd "C-; C-t") 'org-delete-backward-char)
 (global-set-key (kbd "C-; C-i") '(lambda () (interactive) (insert "_")))
@@ -151,11 +128,6 @@
 (add-hook 'matlab-mode-hook 'turn-off-auto-fill)
 (add-hook 'matlab-mode-hook '(lambda () (setq truncate-lines t)))
 (add-hook 'matlab-mode-hook '(lambda () (define-key matlab-mode-map (kbd "C-c C-e") 'matlab-cell-run-current-cell)))
-;; (add-hook 'matlab-mode-hook '(lambda () (define-key matlab-mode-map (kbd "C-; C-n") 'st-create-new-matlab-function)))
-;; (add-hook 'matlab-mode-hook '(lambda () (define-key matlab-mode-map
-;; (kbd "C-M-right") 'next-buffer)))
-;; (add-hook 'matlab-mode-hook 'matlab-cell-initialize)
-
 
 ;; for GDB/debugging in general
 (global-set-key (kbd "<f5>") 'gud-cont)
@@ -198,18 +170,7 @@
   (insert "}"))
 
 (global-set-key (kbd "C-; b") 'latex-bm-ify)
-; bind to the key super-r 
 (global-set-key (kbd "C-; C-r") 'rotate-windows)
-
-; kcmodel_log
-(global-set-key (kbd "C-; C-k") '(lambda () 
-				   (interactive) 
-				   (if (get-buffer "kcmodel_log.org")
-				       (switch-to-buffer (get-buffer "kcmodel_log.org"))
-				     (find-file "~/cvs/docs/kcmodel_docs/kcmodel_log.org"))))
-
-; (global-set-key (kbd "C-; C-u C-c") '(lambda () (interactive (dired "~/cvs/code/util_code/source"))))
-
 (global-set-key (kbd "C-; C-l") 'toggle-truncate-lines)
 
 ;; Latex mode stuff
@@ -265,25 +226,6 @@
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(matlab-auto-fill nil)
- '(matlab-mode-hook (quote (matlab-cell-initialize (lambda nil (define-key matlab-mode-map (kbd "C-c C-e") (quote matlab-cell-run-current-cell))) (lambda nil (setq truncate-lines t)) turn-off-auto-fill)))
- '(mlint-programs (quote ("mlint" "/misc/apps/matlab/matlabR2010a/bin/glnxa64/mlint")))
- '(org-agenda-files (quote ("~/Dropbox/Cambridge/Research/Project/Code/L1Recovery/TestLearningRules/testSingleColumnSwapGradientDescent.m" "/homes/scghomes/st582/Dropbox/Cambridge/Research/Project/Log/LnFeedback4.org" "/homes/scghomes/st582/Dropbox/Cambridge/Research/Project/Log/PublishOrgNotesToHtml.php" "/homes/scghomes/st582/Dropbox/SusskindStatisticalMechanics.org")))
- '(truncate-lines t)
- '(visible-bell t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :background "blue" :foreground "white" :slant normal :height 2.0))))
- '(org-level-2 ((t (:inherit outline-2 :background "dodger blue" :foreground "white" :slant normal :height 1.6))))
- '(org-level-3 ((t (:inherit outline-3 :background "cornflower blue" :foreground "white" :height 1.4)))))
 
 ;; Helper for compilation. Close the compilation window if
   ;; there was no error at all.
@@ -299,11 +241,6 @@
   ;; Specify my function (maybe I should have done a lambda function)
   (setq compilation-exit-message-function 'compilation-exit-autoclose)
 
-;; ;; SAGE Stuff
-;; (add-to-list 'load-path (expand-file-name "/st582-local/opt/sage-5.4.1-linux-64bit-ubuntu_12.04.1_lts-x86_64-Linux/local/share/emacs"))
-;; (require 'sage "sage")
-;; (setq sage-command "/st582-local/opt/sage-5.4.1-linux-64bit-ubuntu_12.04.1_lts-x86_64-Linux/sage")
-
 (add-hook 'html-mode-hook
  (lambda ()
    (local-set-key (kbd "C-RET") 'html-list-item)
@@ -312,27 +249,13 @@
 
 (require 'tabbar)
 
-(load "~/Dropbox/Emacs/my_emacs_abbrev.el")
+(load (concat EMACS-ROOT-DIR "my_emacs_abbrev.el"))
 
 ; ESS mode
 (require 'ess-site)
 (add-hook 'matlab-mode-hook '(lambda () (progn (mlint-minor-mode t) (matlab-toggle-show-mlint-warnings))))
 
-;(add-hook 'sage-startup-after-prompt-hook
-;          (lambda () (interactive)
-;            (sage-view 1)
-;            (sage-view-disable-inline-output)))
-;; If you want sage-view to typeset all your output and have plot()
-;; commands inline, uncomment the following line and configure sage-view:
-;; (require 'sage-view "sage-view")
-;; (add-hook 'sage-startup-hook 'sage-view)
-;; You can use commands like
-;; (add-hook 'sage-startup-hook 'sage-view
-;; 'sage-view-disable-inline-output 'sage-view-disable-inline-plots)
-;; to have some combination of features.  In future, the customize interface
-;; will make this simpler... hint, hint!
-
-;; Add some additional faces for org mode, especial useful for log
+;; Add some additional faces for org mode, especial useful for the log
 (make-face 'font-lock-special-macro-face)
 (set-face-foreground 'font-lock-special-macro-face "white")
 (set-face-background 'font-lock-special-macro-face "dodgerblue4")
@@ -434,9 +357,6 @@
 (set-face-foreground 'font-lock-ref-tag-content-face "yellow")
 (set-face-bold-p     'font-lock-ref-tag-content-face t)
 (set-face-underline-p     'font-lock-ref-tag-content-face t)
-
-;(tex-math-face ((t (:foreground "#98F5FF" :background "#00688B" :bold nil))))
-;(tex-inline-math ((t (:foreground "lavender" :background "steelblue" :bold nil))))
 
 (defun add-custom-keyw()
   "adds a few special keywords for c and c++ modes"
