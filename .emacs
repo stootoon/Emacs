@@ -1,11 +1,12 @@
 ;; Root path for the main lisp files.
-(setq EMACS-ROOT-DIR "~/Dropbox/git/Emacs/")
+(setq EMACS-ROOT-DIR "~/git/Emacs/")
 ;; Location of external code
-(setq EMACS-EXTERNAL-DIR "~/Dropbox/git/Emacs/External/")
+(setq EMACS-EXTERNAL-DIR "~/git/Emacs/External/")
 
-(setq ESS-ROOT-DIR "~/Dropbox/Emacs/ESS/")
+(setq ESS-ROOT-DIR "~/ESS/")
 (setq JULIA-EXECUTABLE "/usr/local/bin/julia")
 (setq ESS-LISP-PATH  (concat ESS-ROOT-DIR "lisp/"))
+(setq GIT-MODE-PATH "~/git-mode/");
 
 ;; Now load the actual .emacs file
 (load-file (concat EMACS-ROOT-DIR "dot-emacs.el"))

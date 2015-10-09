@@ -43,6 +43,11 @@
 ;;(color-theme-dark-blue2)
 (load-theme 'subatomic t)
 
+;; git
+(add-to-list 'load-path GIT-MODE-PATH)
+(require 'git)
+(require 'git-blame)
+
 ;; Desktop stuff
 (desktop-save-mode 0)
 (menu-bar-mode 0)
