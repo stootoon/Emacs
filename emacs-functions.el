@@ -214,6 +214,20 @@
 ;      (message "Done looking.")
       )))
 
+(defun st-switch-buffer (buffer-name)
+  "Switches to the specified buffer if it exists. If already there switches back."
+  (interactive)
+  (if (string= (buffer-name) buffer-name)
+      (switch-to-buffer (other-buffer))
+    (if (get-buffer buffer-name)
+	(switch-to-buffer (get-buffer buffer-name))
+      (message (concat (concat "No " buffer-name) " buffer found.")))))
+
+(defun st-R ()
+  "Switches to the *R* buffer if it exists, or back if already there."
+  (interactive)
+  (st-switch-buffer "*R*"))
+
 (defun st-matlab ()
   "Switches to the MATLAB buffer if it exists. If already in the matlab buffer switches to the previous buffer."
   (interactive)

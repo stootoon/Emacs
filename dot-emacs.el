@@ -6,6 +6,8 @@
 (load "ess-site")
 (setq inferior-julia-program-name JULIA-EXECUTABLE)
 
+(load (concat EMACS-ROOT-DIR "emacs-functions.el"))
+
 (hl-line-mode 1)
 (set-face-background 'hl-line "steelblue4")
 
@@ -74,68 +76,9 @@
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
-;; Personal stuff
-(load (concat EMACS-ROOT-DIR "emacs-functions.el"))
-(global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
-(global-set-key (kbd "C-; C-j") 'fill-paragraph)
-(global-set-key (kbd "C-; C-c") 'st-char-count)
-(global-set-key (kbd "C-; C-w") 'st-word-count)
-(global-set-key (kbd "C-; C-q") 'st-ttc)
-(global-set-key (kbd "C-; C-m") 'st-matlab)
-(global-set-key (kbd "C-; C-o") 'st-octave)
-(global-set-key (kbd "C-; C-a") 'ffap)
-(global-set-key (kbd "C-; C-p") 'st-python)
-(global-set-key (kbd "C-; C-r") 'st-R)
-(global-set-key (kbd "C-; C-v") 'st-matlab-shell-list-variables)
-(global-set-key (kbd "C-; C-f") 'matlab-shell-describe-command)
-(global-set-key (kbd "C-; C-b") 'st-switch-to-other-buffer)
-(global-set-key (kbd "C-; C-s") '(lambda () (interactive) (st-switch-to-buffer-by-name "*shell*")))
-(global-set-key (kbd "C-; C-;") 'st-next-matlab-buffer)
-(global-set-key (kbd "C-; C-'") 'st-previous-matlab-buffer)
-(global-set-key (kbd "C-; C-t") '(lambda () (interactive) (dired ".")))
-(global-set-key (kbd "C-' C-'") 'recompile)
-(global-set-key (kbd "C-# C-b") '(lambda () (interactive) (st-latex-bracket-region "textbf")))
-(global-set-key (kbd "C-# C-i") '(lambda () (interactive) (st-latex-bracket-region "emph")))
-;; Greek
-(global-set-key (kbd "C-; C-g a") '(lambda () (interactive) (insert "\\alpha"))) 
-(global-set-key (kbd "C-; C-g b") '(lambda () (interactive) (insert "\\beta"))) 
-(global-set-key (kbd "C-; C-g g") '(lambda () (interactive) (insert "\\gamma"))) 
-(global-set-key (kbd "C-; C-g d") '(lambda () (interactive) (insert "\\delta"))) 
-(global-set-key (kbd "C-; C-g e") '(lambda () (interactive) (insert "\\epsilon"))) 
-(global-set-key (kbd "C-; C-g z") '(lambda () (interactive) (insert "\\zeta"))) 
-(global-set-key (kbd "C-; C-g h") '(lambda () (interactive) (insert "\\eta"))) 
-(global-set-key (kbd "C-; C-g q") '(lambda () (interactive) (insert "\\theta"))) 
-(global-set-key (kbd "C-; C-g i") '(lambda () (interactive) (insert "\\iota"))) 
-(global-set-key (kbd "C-; C-g k") '(lambda () (interactive) (insert "\\kappa"))) 
-(global-set-key (kbd "C-; C-g l") '(lambda () (interactive) (insert "\\lambda"))) 
-(global-set-key (kbd "C-; C-g m") '(lambda () (interactive) (insert "\\mu"))) 
-(global-set-key (kbd "C-; C-g n") '(lambda () (interactive) (insert "\\nu"))) 
-(global-set-key (kbd "C-; C-g x") '(lambda () (interactive) (insert "\\xi"))) 
-(global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omicron"))) 
-(global-set-key (kbd "C-; C-g p") '(lambda () (interactive) (insert "\\pi"))) 
-(global-set-key (kbd "C-; C-g r") '(lambda () (interactive) (insert "\\rho"))) 
-(global-set-key (kbd "C-; C-g s") '(lambda () (interactive) (insert "\\sigma"))) 
-(global-set-key (kbd "C-; C-g t") '(lambda () (interactive) (insert "\\tau"))) 
-(global-set-key (kbd "C-; C-g y") '(lambda () (interactive) (insert "\\upsilon"))) 
-(global-set-key (kbd "C-; C-g f") '(lambda () (interactive) (insert "\\phi"))) 
-(global-set-key (kbd "C-; C-g c") '(lambda () (interactive) (insert "\\xi"))) 
-(global-set-key (kbd "C-; C-g w") '(lambda () (interactive) (insert "\\psi"))) 
-(global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omega"))) 
-
-(global-set-key (kbd "C-; C-t") 'org-delete-backward-char)
-(global-set-key (kbd "C-; C-i") '(lambda () (interactive) (insert "_")))
-(global-set-key (kbd "C-; C-o") '(lambda () (interactive) (insert "-")))
-(global-set-key (kbd "C-; C-S-n") '(lambda () (interactive) (insert (buffer-name))))
-
 (add-hook 'matlab-mode-hook 'turn-off-auto-fill)
 (add-hook 'matlab-mode-hook '(lambda () (setq truncate-lines t)))
 (add-hook 'matlab-mode-hook '(lambda () (define-key matlab-mode-map (kbd "C-c C-e") 'matlab-cell-run-current-cell)))
-
-;; for GDB/debugging in general
-(global-set-key (kbd "<f5>") 'gud-cont)
-(global-set-key (kbd "<f1>") 'gud-step);; equiv matlab step in
-(global-set-key (kbd "<f2>") 'gud-next) ;; equiv matlab step 1 
-(global-set-key (kbd "<f9>") 'gud-finish) ;; equiv matlab step out
 
 (st-ttc)
 (switch-to-buffer "*Tao Te Ching*")
@@ -170,10 +113,6 @@
   (insert "\\bm{")
   (insert var)
   (insert "}"))
-
-(global-set-key (kbd "C-; b") 'latex-bm-ify)
-(global-set-key (kbd "C-; C-r") 'rotate-windows)
-(global-set-key (kbd "C-; C-l") 'toggle-truncate-lines)
 
 ;; Latex mode stuff
 (defun st-define-latex-mode-keys ()
@@ -493,3 +432,64 @@
   (setenv "PATH" path-string)
   (setq exec-path (split-string path-string path-separator))
 )
+
+;;;;;;; KEY BINDINGS ;
+;; Personal stuff
+(global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
+(global-set-key (kbd "C-; C-j") 'fill-paragraph)
+(global-set-key (kbd "C-; C-c") 'st-char-count)
+(global-set-key (kbd "C-; C-w") 'st-word-count)
+(global-set-key (kbd "C-; C-q") 'st-ttc)
+(global-set-key (kbd "C-; C-m") 'st-matlab)
+(global-set-key (kbd "C-; C-o") 'st-octave)
+(global-set-key (kbd "C-; C-a") 'ffap)
+(global-set-key (kbd "C-; C-p") 'st-python)
+(global-set-key (kbd "C-; C-r") 'st-R)
+(global-set-key (kbd "C-; C-v") 'st-matlab-shell-list-variables)
+(global-set-key (kbd "C-; C-f") 'matlab-shell-describe-command)
+(global-set-key (kbd "C-; C-b") 'st-switch-to-other-buffer)
+(global-set-key (kbd "C-; C-s") '(lambda () (interactive) (st-switch-to-buffer-by-name "*shell*")))
+(global-set-key (kbd "C-; C-;") 'st-next-matlab-buffer)
+(global-set-key (kbd "C-; C-'") 'st-previous-matlab-buffer)
+(global-set-key (kbd "C-; C-t") '(lambda () (interactive) (dired ".")))
+(global-set-key (kbd "C-' C-'") 'recompile)
+(global-set-key (kbd "C-# C-b") '(lambda () (interactive) (st-latex-bracket-region "textbf")))
+(global-set-key (kbd "C-# C-i") '(lambda () (interactive) (st-latex-bracket-region "emph")))
+(global-set-key (kbd "C-; b") 'latex-bm-ify)
+;; (global-set-key (kbd "C-; C-r") 'rotate-windows) 
+(global-set-key (kbd "C-; C-l") 'toggle-truncate-lines)
+(global-set-key (kbd "C-; C-t") 'org-delete-backward-char)
+(global-set-key (kbd "C-; C-i") '(lambda () (interactive) (insert "_")))
+(global-set-key (kbd "C-; C-o") '(lambda () (interactive) (insert "-")))
+(global-set-key (kbd "C-; C-S-n") '(lambda () (interactive) (insert (buffer-name))))
+;; for GDB/debugging in general
+(global-set-key (kbd "<f5>") 'gud-cont)
+(global-set-key (kbd "<f1>") 'gud-step);; equiv matlab step in
+(global-set-key (kbd "<f2>") 'gud-next) ;; equiv matlab step 1 
+(global-set-key (kbd "<f9>") 'gud-finish) ;; equiv matlab step out
+;; Greek
+(global-set-key (kbd "C-; C-g a") '(lambda () (interactive) (insert "\\alpha"))) 
+(global-set-key (kbd "C-; C-g b") '(lambda () (interactive) (insert "\\beta"))) 
+(global-set-key (kbd "C-; C-g g") '(lambda () (interactive) (insert "\\gamma"))) 
+(global-set-key (kbd "C-; C-g d") '(lambda () (interactive) (insert "\\delta"))) 
+(global-set-key (kbd "C-; C-g e") '(lambda () (interactive) (insert "\\epsilon"))) 
+(global-set-key (kbd "C-; C-g z") '(lambda () (interactive) (insert "\\zeta"))) 
+(global-set-key (kbd "C-; C-g h") '(lambda () (interactive) (insert "\\eta"))) 
+(global-set-key (kbd "C-; C-g q") '(lambda () (interactive) (insert "\\theta"))) 
+(global-set-key (kbd "C-; C-g i") '(lambda () (interactive) (insert "\\iota"))) 
+(global-set-key (kbd "C-; C-g k") '(lambda () (interactive) (insert "\\kappa"))) 
+(global-set-key (kbd "C-; C-g l") '(lambda () (interactive) (insert "\\lambda"))) 
+(global-set-key (kbd "C-; C-g m") '(lambda () (interactive) (insert "\\mu"))) 
+(global-set-key (kbd "C-; C-g n") '(lambda () (interactive) (insert "\\nu"))) 
+(global-set-key (kbd "C-; C-g x") '(lambda () (interactive) (insert "\\xi"))) 
+(global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omicron"))) 
+(global-set-key (kbd "C-; C-g p") '(lambda () (interactive) (insert "\\pi"))) 
+(global-set-key (kbd "C-; C-g r") '(lambda () (interactive) (insert "\\rho"))) 
+(global-set-key (kbd "C-; C-g s") '(lambda () (interactive) (insert "\\sigma"))) 
+(global-set-key (kbd "C-; C-g t") '(lambda () (interactive) (insert "\\tau"))) 
+(global-set-key (kbd "C-; C-g y") '(lambda () (interactive) (insert "\\upsilon"))) 
+(global-set-key (kbd "C-; C-g f") '(lambda () (interactive) (insert "\\phi"))) 
+(global-set-key (kbd "C-; C-g c") '(lambda () (interactive) (insert "\\xi"))) 
+(global-set-key (kbd "C-; C-g w") '(lambda () (interactive) (insert "\\psi"))) 
+(global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omega"))) 
+
