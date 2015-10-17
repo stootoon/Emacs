@@ -228,6 +228,11 @@
   (interactive)
   (st-switch-buffer "*R*"))
 
+(defun st-python ()
+  "Switches to the *Python* buffer if it exists, or back if already there."
+  (interactive)
+  (st-switch-buffer "*Python*"))
+
 (defun st-matlab ()
   "Switches to the MATLAB buffer if it exists. If already in the matlab buffer switches to the previous buffer."
   (interactive)
