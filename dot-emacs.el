@@ -13,6 +13,8 @@
 
 (add-hook 'matlab-mode-hook (lambda () (hl-line-mode 1)))
 
+(global-linum-mode 1) ;Turn on marginal line numbres
+
 ;;ido stuff
 (require 'ido)
 (setq ido-enable-flex-matching t)
