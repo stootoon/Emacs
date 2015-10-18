@@ -251,4 +251,15 @@
 	(switch-to-buffer (get-buffer "*Inferior Octave*"))
       (message "No Inferior Octave buffer found."))))
 
+;; A couple of functions that git mode doesn't have.
+(defun git-push ()
+  "Makes a system call to git push."
+  (interactive)
+  (shell-command "git push"))
+
+(defun git-pull ()
+  "Makes a system call to git pull."
+  (interactive)
+  (shell-command "git pull"))
+
 (boundp 'after-change-functions)
