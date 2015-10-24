@@ -1,4 +1,11 @@
 ;; .emacs
+(require 'package)
+(package-initialize)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                        ("marmalade" . "http://marmalade-repo.org/packages/")
+			("melpa-stable" . "https://stable.melpa.org/packages/")
+                        ("melpa" . "http://melpa.org/packages/")))
+
 (setq inhibit-splash-screen t)
 (setq load-path (cons EMACS-ROOT-DIR load-path))
 (setq load-path (cons EMACS-EXTERNAL-DIR load-path))
@@ -452,6 +459,7 @@
 (global-set-key (kbd "C-; C-a") 'ffap)
 (global-set-key (kbd "C-; C-p") 'st-python)
 (global-set-key (kbd "C-; C-r") 'st-R)
+(global-set-key (kbd "C-; C-u") 'git-push)
 (global-set-key (kbd "C-; C-v") 'st-matlab-shell-list-variables)
 (global-set-key (kbd "C-; C-f") 'matlab-shell-describe-command)
 (global-set-key (kbd "C-; C-b") 'st-switch-to-other-buffer)
