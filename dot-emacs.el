@@ -15,10 +15,8 @@
 
 (load (concat EMACS-ROOT-DIR "emacs-functions.el"))
 
-(hl-line-mode 1)
-(set-face-background 'hl-line "steelblue4")
-
-(add-hook 'matlab-mode-hook (lambda () (hl-line-mode 1)))
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#446")
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
