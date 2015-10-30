@@ -1,7 +1,6 @@
 ;; Code from external sources to be loaded from dot-emacs.
 (defun linum-update-window-scale-fix (win)
   "fix linum for scaled text"
-  (interactive)
   (set-window-margins win
           (ceiling (* (if (boundp 'text-scale-mode-step)
                   (expt text-scale-mode-step
