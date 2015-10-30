@@ -22,6 +22,8 @@
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
+(load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
+
 ;;ido stuff
 (require 'ido)
 (setq ido-enable-flex-matching t)
