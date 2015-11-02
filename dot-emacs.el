@@ -16,8 +16,13 @@
 (load (concat EMACS-ROOT-DIR "emacs-functions.el"))
 
 ;; (global-hl-line-mode 1)
-(add-hook 'ess-mode-hook (lambda () (hl-line-mode t)))
-(set-face-background 'hl-line "#446")
+(defun st-turn-on-hl-line-mode ()
+  (progn
+    (hl-line-mode t)
+    (set-face-background 'hl-line "#446")))
+    
+(add-hook 'ess-mode-hook 'st-turn-on-hl-line-mode)
+
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
