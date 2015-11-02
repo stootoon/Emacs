@@ -447,6 +447,9 @@
   (setq exec-path (split-string path-string path-separator))
 )
 
+(defun with-silent-modifications (&rest body)
+  t)
+
 ;;;;;;; KEY BINDINGS ;
 ;; Personal stuff
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
