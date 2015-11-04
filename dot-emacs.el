@@ -20,9 +20,16 @@
   (progn
     (hl-line-mode t)
     (set-face-background 'hl-line "#446")))
-    
-(add-hook 'ess-mode-hook 'st-turn-on-hl-line-mode)
 
+(defun st-set-up-down-bindings ()  
+  "Sets the up and down keys to cycle commands as expected."
+  (interactive)
+  (progn
+    (local-set-key (kbd "<up>") 'comint-previous-input)
+    (local-set-key (kbd "<down") 'comint-next-input)))
+
+(add-hook 'ess-mode-hook 'st-turn-on-hl-line-mode)
+(add-hook 'inferior-ess-mode-hook 'st-set-up-down-bindings)
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
