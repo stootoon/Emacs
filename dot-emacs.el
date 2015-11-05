@@ -33,6 +33,12 @@
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
+;; Recent files mode
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key (kbd "C-; ;") 'recentf-open-files)
+
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
 ;;ido stuff
