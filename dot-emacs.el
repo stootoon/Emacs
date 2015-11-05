@@ -37,7 +37,6 @@
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
-(global-set-key (kbd "C-; ;") 'recentf-open-files)
 
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
@@ -471,6 +470,7 @@
 
 ;;;;;;; KEY BINDINGS ;
 ;; Personal stuff
+(global-set-key (kbd "C-; ;") 'recentf-open-files)
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
 (global-set-key (kbd "C-; C-j") 'fill-paragraph)
 (global-set-key (kbd "C-; C-c") 'st-char-count)
