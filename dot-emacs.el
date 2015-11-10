@@ -26,7 +26,7 @@
   (interactive)
   (progn
     (local-set-key (kbd "<up>") 'comint-previous-input)
-    (local-set-key (kbd "<down") 'comint-next-input)))
+    (local-set-key (kbd "<down>") 'comint-next-input)))
 
 (add-hook 'ess-mode-hook 'st-turn-on-hl-line-mode)
 (add-hook 'inferior-ess-mode-hook 'st-set-up-down-bindings)
