@@ -26,7 +26,7 @@
   (interactive)
   (progn
     (local-set-key (kbd "<up>") 'comint-previous-input)
-    (local-set-key (kbd "<down") 'comint-next-input)))
+    (local-set-key (kbd "<down>") 'comint-next-input)))
 
 (defun st-reformat-json-buffer ()
   "Reformat the whole json buffer when you load it."
@@ -38,6 +38,11 @@
 (add-hook 'json-mode-hook 'st-reformat-json-buffer)
 
 (global-linum-mode 1) ;Turn on marginal line numbres
+
+;; Recent files mode
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
 
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
@@ -471,6 +476,7 @@
 
 ;;;;;;; KEY BINDINGS ;
 ;; Personal stuff
+(global-set-key (kbd "C-; ;") 'recentf-open-files)
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
 (global-set-key (kbd "C-; C-j") 'fill-paragraph)
 (global-set-key (kbd "C-; C-c") 'st-char-count)
