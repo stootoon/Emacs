@@ -28,8 +28,14 @@
     (local-set-key (kbd "<up>") 'comint-previous-input)
     (local-set-key (kbd "<down") 'comint-next-input)))
 
+(defun st-reformat-json-buffer ()
+  "Reformat the whole json buffer when you load it."
+  (interactive)
+  (json-reformat-region (point-min) (point-max)))
+
 (add-hook 'ess-mode-hook 'st-turn-on-hl-line-mode)
 (add-hook 'inferior-ess-mode-hook 'st-set-up-down-bindings)
+(add-hook 'json-mode-hook 'st-reformat-json-buffer)
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
