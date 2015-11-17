@@ -44,6 +44,9 @@
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 
+;; rainbow-colors mode
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
 ;;ido stuff
