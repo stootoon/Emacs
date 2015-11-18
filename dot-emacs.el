@@ -39,6 +39,8 @@
 
 (global-linum-mode 1) ;Turn on marginal line numbres
 
+(window-numbering-mode) ;; Turn on window numbers.
+
 ;; Recent files mode
 (require 'recentf)
 (recentf-mode 1)
