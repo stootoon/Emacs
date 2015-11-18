@@ -41,6 +41,8 @@
 
 (window-numbering-mode) ;; Turn on window numbers.
 
+(add-hook 'doc-view-mode-hook 'auto-revert-mode) ;; Refresh pdfs automatically
+
 ;; Recent files mode
 (require 'recentf)
 (recentf-mode 1)
