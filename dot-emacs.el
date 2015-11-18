@@ -457,8 +457,7 @@
 (defun st-list-buffers-select ()
   "Lists all buffers visiting files and sets focus to that window, to allow easy selection."
   (interactive)
-  (list-buffers t)
-  (other-window 1)
+  (ibuffer)
   (hl-line-mode t))
 
 (defun set-exec-path-from-shell-PATH ()
