@@ -50,6 +50,8 @@
 
 ;; rainbow-colors mode
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'ess-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'c-mode-hook 'rainbow-delimiters-mode)
 
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
@@ -552,3 +554,19 @@
 (global-set-key (kbd "s-7") 'select-window-7)
 (global-set-key (kbd "s-8") 'select-window-8)
 (global-set-key (kbd "s-9") 'select-window-9)
+
+;; Colors for rainbow-delimiters mode.
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-level-1 ((t (:inherit outline-1 :background "blue" :foreground "white" :slant normal :height 2.0))))
+ '(org-level-2 ((t (:inherit outline-2 :background "dodger blue" :foreground "white" :slant normal :height 1.6))))
+ '(org-level-3 ((t (:inherit outline-3 :background "cornflower blue" :foreground "white" :height 1.4))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "SkyBlue1"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "magenta1"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "green1"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "Yellow"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "SeaGreen1")))))
