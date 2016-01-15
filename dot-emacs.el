@@ -49,9 +49,9 @@
 (setq recentf-max-menu-items 25)
 
 ;; rainbow-colors mode
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'ess-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'c-mode-hook 'rainbow-delimiters-mode)
+; (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+; (add-hook 'ess-mode-hook 'rainbow-delimiters-mode)
+; (add-hook 'c-mode-hook 'rainbow-delimiters-mode)
 
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
@@ -89,6 +89,7 @@
 (add-to-list 'load-path GIT-MODE-PATH)
 (require 'git)
 (require 'git-blame)
+(require 'git-emacs)
 
 ;; Desktop stuff
 (desktop-save-mode 0)
