@@ -407,6 +407,12 @@
 (set-face-bold-p       'font-lock-special-tex-subsubsection-face t)
 (set-face-attribute    'font-lock-special-tex-subsubsection-face nil :height 1.4)
 
+(make-face             'font-lock-special-tex-subsubsubsection-face)
+(set-face-foreground   'font-lock-special-tex-subsubsubsection-face "white")
+(set-face-background   'font-lock-special-tex-subsubsubsection-face "salmon")
+(set-face-bold-p       'font-lock-special-tex-subsubsubsection-face t)
+(set-face-attribute    'font-lock-special-tex-subsubsubsection-face nil :height 1.2)
+
 (make-face             'font-lock-tex-todo-face)
 (set-face-foreground   'font-lock-tex-todo-face "white")
 (set-face-background   'font-lock-tex-todo-face "red")
