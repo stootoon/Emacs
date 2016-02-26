@@ -6,7 +6,7 @@
 (setq ESS-ROOT-DIR "~/ESS/")
 (setq JULIA-EXECUTABLE "/usr/local/bin/julia")
 (setq ESS-LISP-PATH  (concat ESS-ROOT-DIR "lisp/"))
-(setq GIT-MODE-PATH "~/git-mode/");
+(setq GIT-EMACS-PATH "~/git/git-emacs/");
 
 ;; Now load the actual .emacs file
 (load-file (concat EMACS-ROOT-DIR "dot-emacs.el"))
