@@ -65,6 +65,7 @@
 (global-font-lock-mode t)
 
 ;; Matlab Mode
+(setq matlab-binary-file "/usr/local/bin/matlab")
 (add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
 (require 'matlab-load)
 (load-file (concat EMACS-ROOT-DIR "matlab-cell.el"))
@@ -86,7 +87,7 @@
 (load-theme 'subatomic t)
 
 ;; git
-(add-to-list 'load-path GIT-MODE-PATH)
+(add-to-list 'load-path GIT-EMACS-PATH)
 (require 'git)
 (require 'git-blame)
 (require 'git-emacs)
