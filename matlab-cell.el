@@ -1,7 +1,7 @@
 (defvar matlab-cell-start-re "^%% .*" 
   "Regular expression that defines that start of a cell block.")
 
-(defvar matlab-cell-background (cons 'background-color "#36648B")
+(defvar matlab-cell-background (cons 'background-color "#444759")
   "Background color of an active cell.")
 
 (defvar matlab-cell-overlay nil

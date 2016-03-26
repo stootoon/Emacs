@@ -49,7 +49,8 @@
 (setq recentf-max-menu-items 25)
 
 ;; rainbow-colors mode
-; (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ; (add-hook 'ess-mode-hook 'rainbow-delimiters-mode)
 ; (add-hook 'c-mode-hook 'rainbow-delimiters-mode)
 
@@ -66,7 +67,7 @@
 
 ;; Matlab Mode
 (setq matlab-binary-file "/usr/local/bin/matlab")
-(add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
+;; (add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
 (require 'matlab-load)
 (load-file (concat EMACS-ROOT-DIR "matlab-cell.el"))
 
@@ -482,10 +483,9 @@
 
 (defun set-exec-path-for-mac-manually ()
   (interactive)
-  (setq path-string "/Users/superuser/anaconda/bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/usr/texbin:/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/usr/X11/bin:/usr/texbin:/sw/bin")
+  (setq path-string "/Users/stootoon/anaconda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")
   (setenv "PATH" path-string)
-  (setq exec-path (split-string path-string path-separator))
-)
+  (setq exec-path (split-string path-string path-separator)))
 
 (defun with-silent-modifications (&rest body)
   t)
