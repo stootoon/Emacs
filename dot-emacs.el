@@ -7,7 +7,7 @@
                         ("melpa" . "http://melpa.org/packages/")))
 
 ;;package-install git, git-blame, matlab-mode
-
+;;git clone matlab-emacs into ~/git/External
 (setq inhibit-splash-screen t)
 (setq load-path (cons EMACS-ROOT-DIR load-path))
 (setq load-path (cons EMACS-EXTERNAL-DIR load-path))
