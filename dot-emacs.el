@@ -6,6 +6,8 @@
 			("melpa-stable" . "https://stable.melpa.org/packages/")
                         ("melpa" . "http://melpa.org/packages/")))
 
+;;package-install git, git-blame, matlab-mode
+
 (setq inhibit-splash-screen t)
 (setq load-path (cons EMACS-ROOT-DIR load-path))
 (setq load-path (cons EMACS-EXTERNAL-DIR load-path))
@@ -67,8 +69,8 @@
 
 ;; Matlab Mode
 (setq matlab-binary-file "/usr/local/bin/matlab")
-;; (add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
-(require 'matlab-load)
+(add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
+;;(require 'matlab-load)
 (load-file (concat EMACS-ROOT-DIR "matlab-cell.el"))
 
 (load-file (concat EMACS-ROOT-DIR "st-multi-mode.el"))
