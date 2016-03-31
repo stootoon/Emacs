@@ -555,6 +555,14 @@
 (global-set-key (kbd "C-; C-g c") '(lambda () (interactive) (insert "\\xi"))) 
 (global-set-key (kbd "C-; C-g w") '(lambda () (interactive) (insert "\\psi"))) 
 (global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omega"))) 
+;;;Umlaute
+(global-set-key (kbd "M-u a") '(lambda() (interactive) (insert "ä")))
+(global-set-key (kbd "M-u A") '(lambda() (interactive) (insert "Ä")))
+(global-set-key (kbd "M-u o") '(lambda() (interactive) (insert "ö")))
+(global-set-key (kbd "M-u O") '(lambda() (interactive) (insert "Ö")))
+(global-set-key (kbd "M-u u") '(lambda() (interactive) (insert "ü")))
+(global-set-key (kbd "M-u U") '(lambda() (interactive) (insert "Ü")))
+
 ;;; Window numbering
 (global-set-key (kbd "s-0") 'select-window-0)
 (global-set-key (kbd "s-1") 'select-window-1)
