@@ -556,6 +556,7 @@
 (global-set-key (kbd "C-; C-g w") '(lambda () (interactive) (insert "\\psi"))) 
 (global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omega"))) 
 ;;;Umlaute
+(global-unset-key (kbd "M-u"))
 (global-set-key (kbd "M-u a") '(lambda() (interactive) (insert "ä")))
 (global-set-key (kbd "M-u A") '(lambda() (interactive) (insert "Ä")))
 (global-set-key (kbd "M-u o") '(lambda() (interactive) (insert "ö")))
