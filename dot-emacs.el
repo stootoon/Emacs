@@ -489,6 +489,8 @@
   (setenv "PATH" path-string)
   (setq exec-path (split-string path-string path-separator)))
 
+(set-exec-path-for-mac-manually)
+
 (defun with-silent-modifications (&rest body)
   t)
 
