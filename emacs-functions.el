@@ -233,6 +233,11 @@
   (interactive)
   (st-switch-buffer "*Python*"))
 
+(defun st-julia ()
+  "Switches to the *Julia* buffer if it exists, or back if already there."
+  (interactive)
+  (st-switch-buffer "*julia*"))
+
 (defun st-matlab ()
   "Switches to the MATLAB buffer if it exists. If already in the matlab buffer switches to the previous buffer."
   (interactive)

@@ -485,11 +485,14 @@
 
 (defun set-exec-path-for-mac-manually ()
   (interactive)
-  (setq path-string "/Users/stootoon/anaconda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")
+  (setq path-string "/Users/stootoon/anaconda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Libary/TeX/texbin")
   (setenv "PATH" path-string)
   (setq exec-path (split-string path-string path-separator)))
 
-(set-exec-path-for-mac-manually)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+; (set-exec-path-for-mac-manually)
 
 (defun with-silent-modifications (&rest body)
   t)
@@ -498,13 +501,14 @@
 ;; Personal stuff
 (global-set-key (kbd "C-; ;") 'recentf-open-files)
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
-(global-set-key (kbd "C-; C-j") 'fill-paragraph)
+(global-set-key (kbd "C-; C-d") 'fill-paragraph)
 (global-set-key (kbd "C-; C-c") 'st-char-count)
 (global-set-key (kbd "C-; C-w") 'st-word-count)
 (global-set-key (kbd "C-; C-q") 'st-ttc)
 (global-set-key (kbd "C-; C-m") 'st-matlab)
 (global-set-key (kbd "C-; C-o") 'st-octave)
 (global-set-key (kbd "C-; C-a") 'ffap)
+(global-set-key (kbd "C-; C-j") 'st-julia)
 (global-set-key (kbd "C-; C-p") 'st-python)
 (global-set-key (kbd "C-; C-r") 'st-R)
 (global-set-key (kbd "C-; C-u") 'git-push)
