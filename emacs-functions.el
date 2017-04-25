@@ -1,3 +1,8 @@
+(defun compile-current-buffer()
+  "Runs 'make FILENAME' where FILENAME is the name of the current buffer without the extension."
+  (interactive)
+  (compile (concat "make " (file-name-base (buffer-file-name)))))
+
 (defun st-word-count ()
   "Counts the number of words in the buffer and prints to the message line."
   (interactive)

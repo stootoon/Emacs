@@ -499,6 +499,7 @@
 
 ;;;;;;; KEY BINDINGS ;
 ;; Personal stuff
+(global-set-key (kbd "C-; C-k") 'compile-current-buffer)
 (global-set-key (kbd "C-; ;") 'recentf-open-files)
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
 (global-set-key (kbd "C-; C-d") 'fill-paragraph)
@@ -595,3 +596,37 @@
  '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue"))))
  '(rainbow-delimiters-depth-5-face ((t (:foreground "Yellow"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "SeaGreen1")))))
+
+(add-to-list 'auto-mode-alist '("\\.jsx$" . javascript-mode))
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+      (let ((web-mode-enable-part-face nil))
+        ad-do-it)
+    ad-do-it))
+
+(setq web-mode-content-types-alist
+  '(("jsx"  . "\\.js[x]?\\'")))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(matlab-auto-fill nil)
+ '(matlab-mode-hook
+   (quote
+    (matlab-cell-initialize
+     (lambda nil
+       (define-key matlab-mode-map
+	 (kbd "C-c C-e")
+	 (quote matlab-cell-run-current-cell)))
+     (lambda nil
+       (setq truncate-lines t))
+     turn-off-auto-fill)) t)
+ '(matlab-shell-command "/usr/local/bin/matlab")
+ '(mlint-programs
+   (quote
+    ("mlint" "/misc/apps/matlab/matlabR2010a/bin/glnxa64/mlint")))
+ '(ns-pop-up-frames nil)
+ '(truncate-lines t)
+ '(visible-bell t))
