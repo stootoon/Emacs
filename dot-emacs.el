@@ -607,6 +607,13 @@
 (setq web-mode-content-types-alist
   '(("jsx"  . "\\.js[x]?\\'")))
 
+;; Python indentation
+(add-hook 'python-mode-hook
+      (lambda ()
+        (setq indent-tabs-mode nil)
+        (setq tab-width 4)
+        (setq python-indent 4)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
