@@ -39,7 +39,7 @@
 (add-hook 'inferior-ess-mode-hook 'st-set-up-down-bindings)
 (add-hook 'json-mode-hook 'st-reformat-json-buffer)
 
-(global-linum-mode 1) ;Turn on marginal line numbres
+(display-line-numbers-mode 1) ;Turn on marginal line numbres
 
 (window-numbering-mode) ;; Turn on window numbers.
 
@@ -587,9 +587,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :background "blue" :foreground "white" :slant normal :height 2.0))))
- '(org-level-2 ((t (:inherit outline-2 :background "dodger blue" :foreground "white" :slant normal :height 1.6))))
- '(org-level-3 ((t (:inherit outline-3 :background "cornflower blue" :foreground "white" :height 1.4))))
+ '(org-level-1 ((t (:inherit outline-1 :foreground "MediumPurple1" :slant normal :height 1.2))))
+ '(org-level-2 ((t (:inherit outline-2 :foreground "#d3bdff" :slant normal :height 1.2))))
+ '(org-level-3 ((t (:inherit outline-3 :foreground "thistle1" :height 1.2))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "SkyBlue1"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "magenta1"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "green1"))))
@@ -637,3 +637,11 @@
  '(ns-pop-up-frames nil)
  '(truncate-lines t)
  '(visible-bell t))
+
+;; So anaconda doesn't complain.
+(when (executable-find "python")
+  (setq python-shell-interpreter "pythonw"))
+
+;; Jedi
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)                 ; optional
