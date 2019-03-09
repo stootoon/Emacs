@@ -11,9 +11,6 @@
 (setq inhibit-splash-screen t)
 (setq load-path (cons EMACS-ROOT-DIR load-path))
 (setq load-path (cons EMACS-EXTERNAL-DIR load-path))
-(add-to-list 'load-path ESS-LISP-PATH)
-(load "ess-site")
-(setq inferior-julia-program-name JULIA-EXECUTABLE)
 
 (load (concat EMACS-ROOT-DIR "emacs-functions.el"))
 
@@ -88,12 +85,6 @@
 (setq custom-theme-directory (concat EMACS-EXTERNAL-DIR "themes"))
 ;;(color-theme-dark-blue2)
 (load-theme 'subatomic t)
-
-;; git
-(add-to-list 'load-path GIT-EMACS-PATH)
-(require 'git)
-(require 'git-blame)
-(require 'git-emacs)
 
 ;; Desktop stuff
 (desktop-save-mode 0)
@@ -242,8 +233,6 @@
 
 (load (concat EMACS-ROOT-DIR "my-emacs-abbrev.el"))
 
-; ESS mode
-(require 'ess-site)
 (add-hook 'matlab-mode-hook '(lambda () (progn (mlint-minor-mode t) (matlab-toggle-show-mlint-warnings))))
 
 ;; Add some additional faces for org mode, especial useful for the log
@@ -489,8 +478,8 @@
   (setenv "PATH" path-string)
   (setq exec-path (split-string path-string path-separator)))
 
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
+;; (when (memq window-system '(mac ns))
+;;   (exec-path-from-shell-initialize))
 
 ; (set-exec-path-for-mac-manually)
 
