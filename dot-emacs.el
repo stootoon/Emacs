@@ -478,8 +478,8 @@
   (setenv "PATH" path-string)
   (setq exec-path (split-string path-string path-separator)))
 
-;; (when (memq window-system '(mac ns))
-;;   (exec-path-from-shell-initialize))
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ; (set-exec-path-for-mac-manually)
 
