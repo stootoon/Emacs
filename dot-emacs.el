@@ -72,12 +72,6 @@
 (load-theme 'subatomic t)
 ;; cell color in notebooks :#384054 
 
-;; ;; git
-;; (add-to-list 'load-path GIT-EMACS-PATH)
-;; (require 'git)
-;; (require 'git-blame)
-;; (require 'git-emacs)
-
 ;; Desktop stuff
 (desktop-save-mode 0)
 (menu-bar-mode 0)
