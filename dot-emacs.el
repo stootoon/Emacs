@@ -1,23 +1,22 @@
 ;; .emacs
 (require 'package)
-(package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                        ("marmalade" . "http://marmalade-repo.org/packages/")
+                        ;("marmalade" . "http://marmalade-repo.org/packages/")
 			("melpa-stable" . "https://stable.melpa.org/packages/")
                         ("melpa" . "http://melpa.org/packages/")))
+(package-initialize)
 
 ;;package-install git, git-blame, matlab-mode
 ;;git clone matlab-emacs into ~/git/External
 (setq inhibit-splash-screen t)
 (setq load-path (cons EMACS-ROOT-DIR load-path))
 (setq load-path (cons EMACS-EXTERNAL-DIR load-path))
-(add-to-list 'load-path ESS-LISP-PATH)
-(load "ess-site")
-(setq inferior-julia-program-name JULIA-EXECUTABLE)
 
 (load (concat EMACS-ROOT-DIR "emacs-functions.el"))
+(message "Loaded emacs-functions.")
 
-;; (global-hl-line-mode 1)
+;; ;; (global-hl-line-mode 1)
+
 (defun st-turn-on-hl-line-mode ()
   (progn
     (hl-line-mode t)
@@ -35,12 +34,11 @@
   (interactive)
   (json-reformat-region (point-min) (point-max)))
 
-(add-hook 'ess-mode-hook 'st-turn-on-hl-line-mode)
-(add-hook 'inferior-ess-mode-hook 'st-set-up-down-bindings)
 (add-hook 'json-mode-hook 'st-reformat-json-buffer)
 
-(display-line-numbers-mode 1) ;Turn on marginal line numbres
+;; ;(display-line-numbers-mode 1) ;Turn on marginal line numbres
 
+(require 'window-numbering)
 (window-numbering-mode) ;; Turn on window numbers.
 
 (add-hook 'doc-view-mode-hook 'auto-revert-mode) ;; Refresh pdfs automatically
@@ -53,8 +51,6 @@
 ;; rainbow-colors mode
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-; (add-hook 'ess-mode-hook 'rainbow-delimiters-mode)
-; (add-hook 'c-mode-hook 'rainbow-delimiters-mode)
 
 (load (concat EMACS-EXTERNAL-DIR "external.el")) ;; Load external functions
 
@@ -67,33 +63,20 @@
 ;; syntax color
 (global-font-lock-mode t)
 
-;; Matlab Mode
-(setq matlab-binary-file "/usr/local/bin/matlab")
-(add-to-list 'load-path (concat EMACS-EXTERNAL-DIR "matlab-emacs"))
-;;(require 'matlab-load)
-(load-file (concat EMACS-ROOT-DIR "matlab-cell.el"))
-
-(load-file (concat EMACS-ROOT-DIR "st-multi-mode.el"))
-(require 'st-multi-mode)
-
-;; PHP Mode
-(autoload 'php-mode (concat EMACS-EXTERNAL-DIR "php-mode.el") "Enter PHP mode." t) 
-(setq auto-mode-alist (cons '("\\.php\\'" . php-mode) auto-mode-alist)) 
-
 (require 'whitespace)
 
 ;; Color Themes
 (require 'color-theme)
 (color-theme-initialize)
 (setq custom-theme-directory (concat EMACS-EXTERNAL-DIR "themes"))
-;;(color-theme-dark-blue2)
 (load-theme 'subatomic t)
+;; cell color in notebooks :#384054 
 
-;; git
-(add-to-list 'load-path GIT-EMACS-PATH)
-(require 'git)
-(require 'git-blame)
-(require 'git-emacs)
+;; ;; git
+;; (add-to-list 'load-path GIT-EMACS-PATH)
+;; (require 'git)
+;; (require 'git-blame)
+;; (require 'git-emacs)
 
 ;; Desktop stuff
 (desktop-save-mode 0)
@@ -123,14 +106,6 @@
 (add-hook 'org-mode-hook
           (lambda () (local-set-key (kbd "C-t") 'org-delete-backward-char)))
 
-;; Folding stuff
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-
-(add-hook 'matlab-mode-hook 'turn-off-auto-fill)
-(add-hook 'matlab-mode-hook '(lambda () (setq truncate-lines t)))
-(add-hook 'matlab-mode-hook '(lambda () (define-key matlab-mode-map (kbd "C-c C-e") 'matlab-cell-run-current-cell)))
 
 (st-ttc)
 (switch-to-buffer "*Tao Te Ching*")
@@ -220,19 +195,19 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; Helper for compilation. Close the compilation window if
-  ;; there was no error at all.
-  (defun compilation-exit-autoclose (status code msg)
-    ;; If M-x compile exists with a 0
-    (when (and (eq status 'exit) (zerop code))
-      ;; then bury the *compilation* buffer, so that C-x b doesn't go there
-      (bury-buffer)
-      ;; and delete the *compilation* window
-      (delete-window (get-buffer-window (get-buffer "*compilation*"))))
-    ;; Always return the anticipated result of compilation-exit-message-function
-    (cons msg code))
-  ;; Specify my function (maybe I should have done a lambda function)
-  (setq compilation-exit-message-function 'compilation-exit-autoclose)
+;; (defun split-compilation-window-hook () 
+;;     "Make sure that the compile window is splitting vertically"
+;;     (progn
+;;       (if (not (get-buffer-window "*compilation*"))
+;;          (progn
+;; 	    (split-window-horizontally)
+;; 	    )
+;; 	  )
+;;       )
+;; 	)
+
+;; (add-hook 'compilation-mode-hook 'split-compilation-window-hook)
+
 
 (add-hook 'html-mode-hook
  (lambda ()
@@ -241,10 +216,6 @@
 )
 
 (load (concat EMACS-ROOT-DIR "my-emacs-abbrev.el"))
-
-; ESS mode
-(require 'ess-site)
-(add-hook 'matlab-mode-hook '(lambda () (progn (mlint-minor-mode t) (matlab-toggle-show-mlint-warnings))))
 
 ;; Add some additional faces for org mode, especial useful for the log
 (make-face 'font-lock-special-macro-face)
@@ -349,39 +320,48 @@
 (set-face-bold-p     'font-lock-ref-tag-content-face t)
 (set-face-underline-p     'font-lock-ref-tag-content-face t)
 
+(make-face           'font-lock-highlight-yellow-face)
+(set-face-foreground 'font-lock-highlight-yellow-face "black")
+(set-face-background 'font-lock-highlight-yellow-face "yellow")
+(set-face-bold-p     'font-lock-highlight-yellow-face t)
+
+
 (defun add-custom-keyw()
   "adds a few special keywords for c and c++ modes"
-  ;
+									  ;
   (font-lock-add-keywords nil
    '(
-     ("R\\(EGREP\\)"  0 'font-lock-special-macro-face2)
-     ("\\(MACRO\\)"  0 'font-lock-special-macro-face )
-     ("\\(PREVIOUS\\)"  0 'font-lock-special-previous-face )
-     ("\\(NEXT\\)"  0 'font-lock-special-previous-face )     
-     ("\\(@[A-Z]*PLOT\\)"  0 'font-lock-special-plot-face )
-     ("@[A-Z]*PLOT\\([ ]+[^[:space:]]+\\)"  1 'font-lock-special-plot-file-face )
-     ("\\(@SCAN\\)"  0 'font-lock-special-plot-face )
-     ("@SCAN\\([ ]+[^[:space:]]+\\)"  1 'font-lock-special-plot-file-face )
-     ; more of those would go here
-     ("\\(@VERIFIED\\)"  0 'font-lock-special-verified-face )
-     ("\\(@PROBATION\\)"  0 'font-lock-special-probation-face )
-     ("@VERIFIED\\([ ]+[A-Za-z].*\\)"  1 'font-lock-special-verified-file-face )
-     ("\\(@UNVERIFIED\\)"  0 'font-lock-special-unverified-face )
-     ("\\<\\(@[A-Z][A-Z|_]+\\)" 0 'font-lock-special-text-tag-face)
-     ; ("@{\\([^$]+\\)@}" 1 'font-lock-special-display-math-face)
-     ("\\(\\\\label{\\)\\([^}]+\\)\\(}\\)" 1 'font-lock-label-tag-face)
-     ("\\(\\\\label{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-label-tag-face)
-     ("\\(\\\\label{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-label-tag-content-face)
-     ("[^$]\\$\\([^$]+\\)\\$" 1 'font-lock-special-inline-math-face)
-     ("\\$\\$\\([^$]+\\)\\$\\$" 1 'font-lock-special-display-math-face)
-     ("\\(.*&.*\\)" 0 'font-lock-special-math-block-face)
-     ("\\(%[^%]+%\\)" 0 'font-lock-special-fixme-face)
-     ("\\(@#\\)\\([^#]+\\)\\(#@\\)" 1 'font-lock-ref-tag-face)
-     ("\\(@#\\)\\([^#]+\\)\\(#@\\)" 2 'font-lock-ref-tag-content-face)
-     ("\\(@#\\)\\([^#]+\\)\\(#@\\)" 3 'font-lock-ref-tag-face)
-     ("\\(@{+#?\\)" 0 'font-lock-special-at-tag-face)
-     ("\\(@}+#?\\)" 0 'font-lock-special-at-tag-face)
-     ("\\($+\\)" 0 'font-lock-special-math-tag-face)
+     ;; ("R\\(EGREP\\)"  0 'font-lock-special-macro-face2)
+     ;; ("\\(MACRO\\)"  0 'font-lock-special-macro-face )
+     ;; ("\\(PREVIOUS\\)"  0 'font-lock-special-previous-face )
+     ;; ("\\(NEXT\\)"  0 'font-lock-special-previous-face )     
+     ;; ("\\(@[A-Z]*PLOT\\)"  0 'font-lock-special-plot-face )
+     ;; ("@[A-Z]*PLOT\\([ ]+[^[:space:]]+\\)"  1 'font-lock-special-plot-file-face )
+     ;; ("\\(@SCAN\\)"  0 'font-lock-special-plot-face )
+     ;; ("@SCAN\\([ ]+[^[:space:]]+\\)"  1 'font-lock-special-plot-file-face )
+     ;; ; more of those would go here
+     ;; ("\\(@VERIFIED\\)"  0 'font-lock-special-verified-face )
+     ;; ("\\(@PROBATION\\)"  0 'font-lock-special-probation-face )
+     ;; ("@VERIFIED\\([ ]+[A-Za-z].*\\)"  1 'font-lock-special-verified-file-face )
+     ;; ("\\(@UNVERIFIED\\)"  0 'font-lock-special-unverified-face )
+     ;; ("\\<\\(@[A-Z][A-Z|_]+\\)" 0 'font-lock-special-text-tag-face)
+     ;; ; ("@{\\([^$]+\\)@}" 1 'font-lock-special-display-math-face)
+     ;; ("\\(\\\\label{\\)\\([^}]+\\)\\(}\\)" 1 'font-lock-label-tag-face)
+     ;; ("\\(\\\\label{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-label-tag-face)
+     ;; ("\\(\\\\label{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-label-tag-content-face)
+     ;; ("[^$]\\$\\([^$]+\\)\\$" 1 'font-lock-special-inline-math-face)
+     ;; ("\\$\\$\\([^$]+\\)\\$\\$" 1 'font-lock-special-display-math-face)
+     ;; ("\\(.*&.*\\)" 0 'font-lock-special-math-block-face)
+     ;; ("\\(%[^%]+%\\)" 0 'font-lock-special-fixme-face)
+     ;; ("\\(@#\\)\\([^#]+\\)\\(#@\\)" 1 'font-lock-ref-tag-face)
+     ;; ("\\(@#\\)\\([^#]+\\)\\(#@\\)" 2 'font-lock-ref-tag-content-face)
+     ;; ("\\(@#\\)\\([^#]+\\)\\(#@\\)" 3 'font-lock-ref-tag-face)
+     ;; ("\\(@{+#?\\)" 0 'font-lock-special-at-tag-face)
+     ;; ("\\(@}+#?\\)" 0 'font-lock-special-at-tag-face)
+     ;; ("\\($+\\)" 0 'font-lock-special-math-tag-face)
+     ;; ("\\(@\\^\\)" 0 'font-lock-special-math-tag-face)
+     ;; ("\\(\\^@\\)" 0 'font-lock-special-math-tag-face)	 	 
+     ("@\\^\\([^\\^]+\\)\\^@" 1 'font-lock-highlight-yellow-face)
      )
    )
  )
@@ -429,6 +409,32 @@
 (set-face-bold-p       'font-lock-tex-done-face t)
 (set-face-attribute    'font-lock-tex-done-face nil :height 1.2)
 
+(make-face             'font-lock-st-tex-comment-face)
+(set-face-foreground   'font-lock-st-tex-comment-face "gray10")
+(set-face-background   'font-lock-st-tex-comment-face "gray50")
+(set-face-bold-p       'font-lock-st-tex-comment-face t)
+(set-face-underline-p  'font-lock-st-tex-comment-face nil)
+(set-face-italic-p     'font-lock-st-tex-comment-face t)
+
+(make-face             'font-lock-st-tex-insert-face)
+(set-face-foreground   'font-lock-st-tex-insert-face "black")
+(set-face-background   'font-lock-st-tex-insert-face "yellow")
+(set-face-bold-p       'font-lock-st-tex-insert-face nil)
+(set-face-underline-p  'font-lock-st-tex-insert-face nil)
+
+(make-face             'font-lock-st-tex-highlight-face)
+(set-face-foreground   'font-lock-st-tex-highlight-face "black")
+(set-face-background   'font-lock-st-tex-highlight-face "yellow")
+(set-face-bold-p       'font-lock-st-tex-highlight-face nil)
+(set-face-underline-p  'font-lock-st-tex-highlight-face nil)
+
+(make-face             'font-lock-st-tex-delete-face)
+(set-face-foreground   'font-lock-st-tex-delete-face "white")
+(set-face-background   'font-lock-st-tex-delete-face "gray80")
+(set-face-bold-p       'font-lock-st-tex-delete-face nil)
+(set-face-attribute    'font-lock-st-tex-delete-face nil :strike-through "red")
+
+
 (defun add-custom-tex-keyw()
   "adds a few special keywords for tex modes"
   ;
@@ -442,7 +448,23 @@
      ("\\([\\]subsection[\*]?{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-tex-dim-face)
      ("\\([\\]subsubsection[\*]?{\\)\\([^}]+\\)\\(}\\)" 1 'font-lock-tex-dim-face)
      ("\\([\\]subsubsection[\*]?{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-special-tex-subsubsection-face)
-     ("\\([\\]subsubsection[\*]?{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-tex-dim-face)
+     ("\\([\\]subsubsection[\*]?{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-tex-dim-face)     
+
+     ("\\([\\]pel{\\)\\([^}]+\\)\\(}\\)"  2 'font-lock-st-tex-insert-face)
+     ("\\([\\]peld{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-st-tex-delete-face)
+     ("\\([\\]pelc{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-st-tex-comment-face)
+     ("\\([\\]hl{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-st-tex-highlight-face)     
+
+     ("\\([\\]pel{\\)\\([^}]+\\)\\(}\\)"  1 'font-lock-tex-dim-face)
+     ("\\([\\]peld{\\)\\([^}]+\\)\\(}\\)" 1 'font-lock-tex-dim-face)
+     ("\\([\\]pelc{\\)\\([^}]+\\)\\(}\\)" 1 'font-lock-tex-dim-face)
+     ("\\([\\]hl{\\)\\([^}]+\\)\\(}\\)"  1 'font-lock-tex-dim-face)          
+
+     ("\\([\\]pel{\\)\\([^}]+\\)\\(}\\)"  3 'font-lock-tex-dim-face)
+     ("\\([\\]peld{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-tex-dim-face)
+     ("\\([\\]pelc{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-tex-dim-face)
+     ("\\([\\]hl{\\)\\([^}]+\\)\\(}\\)"  3 'font-lock-tex-dim-face)               
+     
      ("\\([\\]todo{\\)\\([^}]+\\)\\(}\\)" 1 'font-lock-tex-dim-face)
      ("\\([\\]todo{\\)\\([^}]+\\)\\(}\\)" 2 'font-lock-tex-todo-face)
      ("\\([\\]todo{\\)\\([^}]+\\)\\(}\\)" 3 'font-lock-tex-dim-face)
@@ -477,48 +499,23 @@
   (ibuffer)
   (hl-line-mode t))
 
-(defun set-exec-path-from-shell-PATH ()
-  (interactive)
-  (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(defun set-exec-path-for-mac-manually ()
-  (interactive)
-  (setq path-string "/Users/stootoon/anaconda/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Libary/TeX/texbin")
-  (setenv "PATH" path-string)
-  (setq exec-path (split-string path-string path-separator)))
-
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
-
-; (set-exec-path-for-mac-manually)
-
 (defun with-silent-modifications (&rest body)
   t)
 
 ;;;;;;; KEY BINDINGS ;
 ;; Personal stuff
-(global-set-key (kbd "C-; C-k") 'compile-current-buffer)
+(global-set-key (kbd "C-; C-k") 'st-compile-current-buffer)
 (global-set-key (kbd "C-; ;") 'recentf-open-files)
 (global-set-key (kbd "C-x C-B") 'st-list-buffers-select)
 (global-set-key (kbd "C-; C-d") 'fill-paragraph)
 (global-set-key (kbd "C-; C-c") 'st-char-count)
 (global-set-key (kbd "C-; C-w") 'st-word-count)
 (global-set-key (kbd "C-; C-q") 'st-ttc)
-(global-set-key (kbd "C-; C-m") 'st-matlab)
-(global-set-key (kbd "C-; C-o") 'st-octave)
 (global-set-key (kbd "C-; C-a") 'ffap)
-(global-set-key (kbd "C-; C-j") 'st-julia)
 (global-set-key (kbd "C-; C-p") 'st-python)
-(global-set-key (kbd "C-; C-r") 'st-R)
 (global-set-key (kbd "C-; C-u") 'git-push)
-(global-set-key (kbd "C-; C-v") 'st-matlab-shell-list-variables)
-(global-set-key (kbd "C-; C-f") 'matlab-shell-describe-command)
 (global-set-key (kbd "C-; C-b") 'st-switch-to-other-buffer)
 (global-set-key (kbd "C-; C-s") '(lambda () (interactive) (st-switch-to-buffer-by-name "*shell*")))
-(global-set-key (kbd "C-; C-;") 'st-next-matlab-buffer)
-(global-set-key (kbd "C-; C-'") 'st-previous-matlab-buffer)
 (global-set-key (kbd "C-; C-t") '(lambda () (interactive) (dired ".")))
 (global-set-key (kbd "C-' C-'") 'recompile)
 (global-set-key (kbd "C-# C-b") '(lambda () (interactive) (st-latex-bracket-region "textbf")))
@@ -535,39 +532,6 @@
 (global-set-key (kbd "<f1>") 'gud-step);; equiv matlab step in
 (global-set-key (kbd "<f2>") 'gud-next) ;; equiv matlab step 1 
 (global-set-key (kbd "<f9>") 'gud-finish) ;; equiv matlab step out
-;; Greek
-(global-set-key (kbd "C-; C-g a") '(lambda () (interactive) (insert "\\alpha"))) 
-(global-set-key (kbd "C-; C-g b") '(lambda () (interactive) (insert "\\beta"))) 
-(global-set-key (kbd "C-; C-g g") '(lambda () (interactive) (insert "\\gamma"))) 
-(global-set-key (kbd "C-; C-g d") '(lambda () (interactive) (insert "\\delta"))) 
-(global-set-key (kbd "C-; C-g e") '(lambda () (interactive) (insert "\\epsilon"))) 
-(global-set-key (kbd "C-; C-g z") '(lambda () (interactive) (insert "\\zeta"))) 
-(global-set-key (kbd "C-; C-g h") '(lambda () (interactive) (insert "\\eta"))) 
-(global-set-key (kbd "C-; C-g q") '(lambda () (interactive) (insert "\\theta"))) 
-(global-set-key (kbd "C-; C-g i") '(lambda () (interactive) (insert "\\iota"))) 
-(global-set-key (kbd "C-; C-g k") '(lambda () (interactive) (insert "\\kappa"))) 
-(global-set-key (kbd "C-; C-g l") '(lambda () (interactive) (insert "\\lambda"))) 
-(global-set-key (kbd "C-; C-g m") '(lambda () (interactive) (insert "\\mu"))) 
-(global-set-key (kbd "C-; C-g n") '(lambda () (interactive) (insert "\\nu"))) 
-(global-set-key (kbd "C-; C-g x") '(lambda () (interactive) (insert "\\xi"))) 
-(global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omicron"))) 
-(global-set-key (kbd "C-; C-g p") '(lambda () (interactive) (insert "\\pi"))) 
-(global-set-key (kbd "C-; C-g r") '(lambda () (interactive) (insert "\\rho"))) 
-(global-set-key (kbd "C-; C-g s") '(lambda () (interactive) (insert "\\sigma"))) 
-(global-set-key (kbd "C-; C-g t") '(lambda () (interactive) (insert "\\tau"))) 
-(global-set-key (kbd "C-; C-g y") '(lambda () (interactive) (insert "\\upsilon"))) 
-(global-set-key (kbd "C-; C-g f") '(lambda () (interactive) (insert "\\phi"))) 
-(global-set-key (kbd "C-; C-g c") '(lambda () (interactive) (insert "\\xi"))) 
-(global-set-key (kbd "C-; C-g w") '(lambda () (interactive) (insert "\\psi"))) 
-(global-set-key (kbd "C-; C-g o") '(lambda () (interactive) (insert "\\omega"))) 
-;;;Umlaute
-(global-unset-key (kbd "M-u"))
-(global-set-key (kbd "M-u a") '(lambda() (interactive) (insert "ä")))
-(global-set-key (kbd "M-u A") '(lambda() (interactive) (insert "Ä")))
-(global-set-key (kbd "M-u o") '(lambda() (interactive) (insert "ö")))
-(global-set-key (kbd "M-u O") '(lambda() (interactive) (insert "Ö")))
-(global-set-key (kbd "M-u u") '(lambda() (interactive) (insert "ü")))
-(global-set-key (kbd "M-u U") '(lambda() (interactive) (insert "Ü")))
 
 ;;; Window numbering
 (global-set-key (kbd "s-0") 'select-window-0)
@@ -597,16 +561,6 @@
  '(rainbow-delimiters-depth-5-face ((t (:foreground "Yellow"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "SeaGreen1")))))
 
-(add-to-list 'auto-mode-alist '("\\.jsx$" . javascript-mode))
-(defadvice web-mode-highlight-part (around tweak-jsx activate)
-  (if (equal web-mode-content-type "jsx")
-      (let ((web-mode-enable-part-face nil))
-        ad-do-it)
-    ad-do-it))
-
-(setq web-mode-content-types-alist
-  '(("jsx"  . "\\.js[x]?\\'")))
-
 ;; Python indentation
 (add-hook 'python-mode-hook
       (lambda ()
@@ -619,21 +573,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(matlab-auto-fill nil)
- '(matlab-mode-hook
-   (quote
-    (matlab-cell-initialize
-     (lambda nil
-       (define-key matlab-mode-map
-	 (kbd "C-c C-e")
-	 (quote matlab-cell-run-current-cell)))
-     (lambda nil
-       (setq truncate-lines t))
-     turn-off-auto-fill)) t)
- '(matlab-shell-command "/usr/local/bin/matlab")
- '(mlint-programs
-   (quote
-    ("mlint" "/misc/apps/matlab/matlabR2010a/bin/glnxa64/mlint")))
  '(ns-pop-up-frames nil)
  '(truncate-lines t)
  '(visible-bell t))
@@ -643,5 +582,357 @@
   (setq python-shell-interpreter "pythonw"))
 
 ;; Jedi
-;(add-hook 'python-mode-hook 'jedi:setup)
-;(setq jedi:complete-on-dot t)                 ; optional
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)                 ; optional
+
+(require 'epa-file)
+(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
+(setf epa-pinentry-mode 'loopback)
+(epa-file-enable)
+(message "GPG2 enabled.")
+
+(defun st-switch-to-buffer (f)
+  "Switches to the buffer for file 'f' if not there. If there, switches to the previous buffer."
+  (interactive)
+  (if (string= (buffer-file-name) f)
+      (progn
+	(switch-to-buffer (other-buffer)))
+    (progn
+      (find-file f)
+      )))
+			
+
+(defun st-set-todo-list-bindings ()  
+  "Sets the bindings that open various todolists."
+  (interactive)
+  (progn
+    (global-set-key (kbd "C-. C-1") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/oneliners.org")))
+    (global-set-key (kbd "C-. C-o") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/olfaction.org")))	
+    (global-set-key (kbd "C-. C-d") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/git/Emacs/dot-emacs.el")))		
+    (global-set-key (kbd "C-. C-s") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/silent_mcs.org")))	
+    (global-set-key (kbd "C-. C-a") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/amblr.log.org")))
+    (global-set-key (kbd "C-. C-c") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/Crick/crick.org")))	
+    (global-set-key (kbd "C-. C-f") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/Finances/2019.org")))
+    (global-set-key (kbd "C-. C-g") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/greek.org")))    
+    (global-set-key (kbd "C-. C-i") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/ideas.org")))
+    (global-set-key (kbd "C-. C-m") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/math.org")))
+    (global-set-key (kbd "C-. C-l") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/Locust/locust.org")))
+    (global-set-key (kbd "C-; C-;") 'other-frame)    
+    (global-set-key (kbd "C-. C-t") (lambda () (interactive) (st-switch-to-buffer "/Users/stootoon/Dropbox/today.org")))
+    ))
+
+
+(st-set-todo-list-bindings)
+										; Gmsh files should open in c-mode
+(add-to-list 'auto-mode-alist '("\\.geo\\'" . c-mode))
+
+
+(defun st-indent (&optional n)
+  "Indents the region using spaces."
+  (interactive)
+  (unless n
+	(setq n 4))
+  (if (mark)
+	  (let (start end)
+		(save-restriction
+		  (save-excursion
+			(narrow-to-region (region-beginning) (region-end))
+			(goto-char 1)
+			(while (re-search-forward "^" nil t)
+			  (replace-match (make-string n ? ))) ;; the space after? is necessary.
+			  )))))
+
+(defun st-unindent (&optional n)
+  "Unindents the region using spaces."
+  (interactive)
+  (unless n
+	(setq n 4))
+  (if (mark)
+	  (let (start end)
+		(save-restriction
+		  (save-excursion
+			(narrow-to-region (region-beginning) (region-end))
+			(goto-char 1)
+			(while (re-search-forward (concat "^" (make-string n ? )) nil t)
+			  (replace-match "")
+			  (goto-char (+ (point) n))
+			  ) ;; the space after? is necessary.
+			  )))))
+
+(defun st-compile-start ()
+  (interactive)
+  (message "st-compile-start called.")
+					;(kill-buffer "*compilation*") ;; In case it's still hanging around
+  (if (get-buffer-window "*compilation*")
+      (progn
+	(message "Found *compilation* buffer in a window, switching to it and closing.")
+	(kill-buffer "*compilation*")))
+  (window-configuration-to-register 9)
+  (setq st-saved-window-configuration 1)
+  (message "st-compile-start finished.")
+  )
+
+(defun st-goto-endof-compilation-buffer ()
+  (interactive)
+  (message "st-goto-endof-compilation-buffer")
+  (if (get-buffer-window "*compilation*")
+      (save-selected-window
+	(switch-to-buffer-other-window "*compilation*")
+	(end-of-buffer))
+    (message "No *compilation* buffer found.")))
+;; ;(add-hook 'compile-start-hook 'st-compile-start)
+
+(defun st-insert-tex-eq ()
+  "Asks the user for the name of an equation and inserts a reference to it."
+  (interactive)
+  (setq ref (read-string "Which equation? "))
+  (insert (concat "\\Eqn{" ref "} ")))
+
+(defun st-compile-current-buffer ()
+  (interactive)
+  (save-excursion
+    (st-compile-start))
+  (compile-current-buffer))
+
+(defun st-post-compile ()
+  (interactive)
+  (message "st-post-compile called.")
+  (if st-saved-window-configuration
+	(progn
+	  (setq st-saved-window-configuration nil)
+	  (jump-to-register 9)
+	  (message "Reverted to saved window configuration."))
+	(message "No saved configuration found.")))
+
+;; Helper for compilation. Close the compilation window if
+  ;; there was no error at all.
+(defun st-set-compilation-status (status code msg)
+  ;; If M-x compile exists with a 0
+  (setq st-compilation-status status)
+  (setq st-compilation-code  code)
+  (setq st-compilation-msg   msg)
+  (setq st-compilation-exit t)
+  
+  (cons msg code)
+  )
+
+;; Specify my function (maybe I should have done a lambda function)
+(setq compilation-exit-message-function 'st-set-compilation-status)
+
+(defun st-compilation-finish-function (buffer desc)
+  (message "st-compilation-finish-function. Buffer %s: %s" buffer desc)
+  (if st-compilation-exit
+      (progn
+	(setq st-compilation-exit nil)
+	(when (and (eq st-compilation-status 'exit) (zerop st-compilation-code))
+	  ;; then bury the *compilation* buffer, so that C-x b doesn't go there
+	  (bury-buffer "*compilation*")
+	  ;; and delete the *compilation* window
+	  (delete-window (get-buffer-window (get-buffer "*compilation*")))
+	  (st-post-compile)
+	  ))))
+
+(add-hook 'compilation-finish-functions 'st-compilation-finish-function)
+
+(setq org-src-fontify-natively t
+    org-src-tab-acts-natively t
+    org-confirm-babel-evaluate nil
+    org-edit-src-content-indentation 0)
+
+(setq inferior-lisp-program "sbcl")
+
+(defvar outline-minor-mode-prefix "\M-#")
+
+(defun st-python-shell-send-current-line ()
+ (interactive)
+ (python-shell-send-region (line-beginning-position) (line-end-position))
+ (forward-line))
+
+(defun now ()
+  "Insert string for the current time formatted like '2:34 PM'."
+  (interactive)                 ; permit invocation in minibuffer
+  (insert (format-time-string "%H:%M"))
+  (insert " ")
+  )
+
+(global-set-key (kbd "C-. C-.") 'now)
+
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
+(pixel-scroll-mode)
+(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
+(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
+(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
+(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
+
+(require 'reftex)
+(add-hook 'latex-mode-hook 'turn-on-reftex)
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+(add-hook 'LaTeX-mode-hook
+          (lambda () (local-set-key (kbd "C-; C-y") 'st-goto-endof-compilation-buffer)))
+
+(defvar outline-minor-mode-prefix "\M-#")
+
+(defun st-msg (msg)
+  (message (concat (format-time-string "%Y/%m/%d %H:%M:%S.%3N" (current-time)) " " msg)))
+(global-undo-tree-mode)    
+
+;;(pdf-tools-install)
+
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key (kbd "ESC <up>") 'move-line-up)
+(global-set-key (kbd "ESC <down>")  'move-line-down)
+
+(defvar markdown--first-displayable-cache (make-hash-table :test #'equal))
+
+(defun markdown--first-displayable (seq)
+  "Return the first displayable character or string in SEQ.
+SEQ may be an atom or a sequence."
+  (let ((c (gethash seq markdown--first-displayable-cache t)))
+    (if (not (eq c t))
+        c
+      (puthash seq
+               (let ((seq (if (listp seq) seq (list seq))))
+                 (cond ((stringp (car seq))
+                        (cl-find-if
+                         (lambda (str)
+                           (and (mapcar #'char-displayable-p (string-to-list str))))
+                         seq))
+                       ((characterp (car seq))
+                        (cl-find-if #'char-displayable-p seq))))
+               markdown--first-displayable-cache))))
+
+(defun get-word () ;; From ergoemacs
+   (interactive)
+  (let (
+        p1
+        p2
+        (case-fold-search t))
+    (save-excursion
+      (skip-chars-backward "_a-z0-9" )
+      (setq p1 (point))
+      (skip-chars-forward "_a-z0-9" )
+      (setq p2 (point))
+      (message "%s" (buffer-substring-no-properties p1 p2)))))
+
+(defun peld ()
+  (interactive)
+  (save-excursion
+    (setq w1 (get-word))
+    (if (equal w1 "peld")
+	(save-excursion
+	  (setq s1 (1- (search-forward "{")))
+	  (goto-char s1)
+	  (forward-sexp)
+	  (setq s2 (+ (point) 1))
+	  (setq s1 (- s1 5))
+	  (message "Cutting PELD: %d %d %s" s1 s2 (buffer-substring-no-properties s1 s2))
+	  (kill-region s1 (1- s2))
+	  )
+      (message "Not peld"))
+    )
+  )
+
+(defun pel ()
+  (interactive)
+  (save-excursion
+    (setq w1 (get-word))
+    (if (equal w1 "pel")
+	(save-excursion
+	  (setq s1 (1- (search-forward "{")))
+	  (goto-char s1)
+	  (forward-sexp)
+	  (setq s2 (+ (point) 1))
+	  (setq s1 (- s1 4))
+	  (message "Accepting PEL: %d %d %s" s1 s2 (buffer-substring-no-properties s1 s2))
+	  (kill-region (- s2 2) (1- s2))	  
+	  (kill-region s1 (+ s1 5))
+	  )
+      (message "Not pel"))
+    )
+  )
+
+(defun st-move-line-up ()
+"Moves the current line up one and keeps point with it."
+(interactive)
+(transpose-lines 1)
+(forward-line -2))
+
+(defun st-move-line-down ()
+"Moves the current line up one and keeps point with it."
+(interactive)
+(forward-line 1)
+(transpose-lines 1)
+(forward-line -1))
+
+(global-set-key (kbd "C-x <up>") 'st-move-line-up)
+(global-set-key (kbd "C-x <down>") 'st-move-line-down)
+
+(global-set-key (kbd "M-g a") "α")
+(global-set-key (kbd "M-g b") "β")
+(global-set-key (kbd "M-g g") "γ")
+(global-set-key (kbd "M-g d") "δ")
+(global-set-key (kbd "M-g e") "ε")
+(global-set-key (kbd "M-g z") "ζ")
+(global-set-key (kbd "M-g h") "η")
+(global-set-key (kbd "M-g q") "θ")
+(global-set-key (kbd "M-g i") "ι")
+(global-set-key (kbd "M-g k") "κ")
+(global-set-key (kbd "M-g l") "λ")
+(global-set-key (kbd "M-g m") "μ")
+(global-set-key (kbd "M-g n") "ν")
+(global-set-key (kbd "M-g x") "ξ")
+(global-set-key (kbd "M-g o") "ο")
+(global-set-key (kbd "M-g p") "π")
+(global-set-key (kbd "M-g r") "ρ")
+(global-set-key (kbd "M-g s") "σ")
+(global-set-key (kbd "M-g t") "τ")
+(global-set-key (kbd "M-g u") "υ")
+(global-set-key (kbd "M-g f") "ϕ")
+(global-set-key (kbd "M-g j") "φ")
+(global-set-key (kbd "M-g c") "χ")
+(global-set-key (kbd "M-g y") "ψ")
+(global-set-key (kbd "M-g w") "ω")
+(global-set-key (kbd "M-g A") "Α")
+(global-set-key (kbd "M-g B") "Β")
+(global-set-key (kbd "M-g G") "Γ")
+(global-set-key (kbd "M-g D") "Δ")
+(global-set-key (kbd "M-g E") "Ε")
+(global-set-key (kbd "M-g Z") "Ζ")
+(global-set-key (kbd "M-g H") "Η")
+(global-set-key (kbd "M-g Q") "Θ")
+(global-set-key (kbd "M-g I") "Ι")
+(global-set-key (kbd "M-g K") "Κ")
+(global-set-key (kbd "M-g L") "Λ")
+(global-set-key (kbd "M-g M") "Μ")
+(global-set-key (kbd "M-g N") "Ν")
+(global-set-key (kbd "M-g X") "Ξ")
+(global-set-key (kbd "M-g O") "Ο")
+(global-set-key (kbd "M-g P") "Π")
+(global-set-key (kbd "M-g R") "Ρ")
+(global-set-key (kbd "M-g S") "Σ")
+(global-set-key (kbd "M-g T") "Τ")
+(global-set-key (kbd "M-g U") "Υ")
+(global-set-key (kbd "M-g F") "Φ")
+(global-set-key (kbd "M-g J") "Φ")
+(global-set-key (kbd "M-g C") "Χ")
+(global-set-key (kbd "M-g Y") "Ψ")
+(global-set-key (kbd "M-g W") "Ω")

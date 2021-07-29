@@ -1,7 +1,9 @@
 (defun compile-current-buffer()
   "Runs 'make FILENAME' where FILENAME is the name of the current buffer without the extension."
   (interactive)
-  (compile (concat "make " (file-name-base (buffer-file-name)))))
+  (compile (concat "make " (file-name-base (buffer-file-name))))
+  (message "In compile-current-buffer: compile finished.")
+  )
 
 (defun st-word-count ()
   "Counts the number of words in the buffer and prints to the message line."
@@ -64,6 +66,20 @@
   (copy-to-buffer outputBuffer start end)
   (switch-to-buffer outputBuffer)
   )
+
+
+(defun st-insert-latex-align ()
+  "Inserts a latex align environment at point."
+  (interactive)
+  (setq label (read-string "Label: "))
+  (insert "\\begin{align}\n\n")
+  (unless (string-empty-p label)
+    (insert (concat "\\label{" label "}\n")))
+  (insert "\\end{align}\n")    
+  (forward-line -2)
+  (unless (string-empty-p label)
+    (forward-line -1))
+)
 
 (defun st-insert-inline-latex-wrapper ()
   "Inserts $$ at the point and positions point to insert latex code."
